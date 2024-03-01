@@ -9,203 +9,208 @@ import SwiftUI
 import Foundation
 
 func getTimestamp () -> String {
-    let date = Date()
-    let calendar = Calendar.current
+  let date = Date()
+  let calendar = Calendar.current
 
-    let hour = calendar.component(.hour, from: date)
-    let minute = calendar.component(.minute, from: date)
-    let second = calendar.component(.second, from: date)
+  let hour = calendar.component(.hour, from: date)
+  let minute = calendar.component(.minute, from: date)
+  let second = calendar.component(.second, from: date)
 
-    return "[\(hour):\(minute):\(second)]"
+  return "[\(hour):\(minute):\(second)]"
 }
 
 struct ContentView: View {
-    @State private var showConfirmation = false
-    @State private var showingLog = false
+  @State private var showConfirmation = false
+  @State private var showingLog = false
 
-    @State var player1damage: Int = 0
-    @State var player1leader: Bool = false
-    @State var player1base: Bool = false
-    
-    @State var player2damage: Int = 0
-    @State var player2leader: Bool = false
-    @State var player2base: Bool = false
-    
-    @State var audit: [String] = []
-    
-    func handleDamage (player: Int, damage: Int) {
-        var finalDamage = 0
-        if player == 1 {
-            player1damage += damage
-            if player1damage < 0 {
-                player1damage = 0
-            }
-            finalDamage = player1damage
-        } else {
-            player2damage += damage
-            if player2damage < 0 {
-                player2damage = 0
-            }
-            finalDamage = player2damage
-        }
-        
-        let verbage = damage > 0 ? "took" : "healed"
-        let timestamp = getTimestamp()
-        
-        audit.append("\(timestamp): Player \(player) \(verbage) \(abs(damage)); final result: \(finalDamage)")
-    }
-    
-    func handleToggle (toggle: Bool, player: Int, leader: Bool) {
-        let toggleOf = leader ? "leader" : "base"
-        let verbage = toggle ? "performed an epic action" : "revoked an epic action"
-        let timestamp = getTimestamp()
-
-        audit.append("\(timestamp): Player \(player) \(toggleOf) \(verbage)")
-    }
-    
-    func handleReset(){
+  @State var player1damage: Int = 0
+  @State var player1leader: Bool = false
+  @State var player1base: Bool = false
+  
+  @State var player2damage: Int = 0
+  @State var player2leader: Bool = false
+  @State var player2base: Bool = false
+  
+  @State var audit: [String] = []
+  
+  func handleDamage (player: Int, damage: Int) {
+    var finalDamage = 0
+    if player == 1 {
+      player1damage += damage
+      if player1damage < 0 {
         player1damage = 0
-        player1leader = false
-        player1base = false
-        
+      }
+      finalDamage = player1damage
+    } else {
+      player2damage += damage
+      if player2damage < 0 {
         player2damage = 0
-        player2leader = false
-        player2base = false
-        
-        audit = []
+      }
+      finalDamage = player2damage
     }
+    
+    let verbage = damage > 0 ? "took" : "healed"
+    let timestamp = getTimestamp()
+    
+    audit.append("\(timestamp): Player \(player) \(verbage) \(abs(damage)); final result: \(finalDamage)")
+  }
+  
+  func handleToggle (toggle: Bool, player: Int, leader: Bool) {
+    let toggleOf = leader ? "leader" : "base"
+    let verbage = toggle ? "performed an epic action" : "revoked an epic action"
+    let timestamp = getTimestamp()
 
-    var body: some View {
-        VStack {
-            Spacer()
-            GroupBox(label: Text("Player 1")) {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button("-5") {
-                        handleDamage(player: 1, damage: -5)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Button("-1") {
-                        handleDamage(player: 1, damage: -1)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Text("\(player1damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    Spacer()
-                    Button("+1") {
-                        handleDamage(player: 1, damage: 1)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Button("+5") {
-                        handleDamage(player: 1, damage: 5)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                }
-                Spacer()
-                HStack {
-                    Spacer()
-                    VStack {
-                        Text("Leader")
-                        Toggle("", isOn: $player1leader)
-                            .onChange(of: player1leader) {oldState, newValue in
-                                handleToggle(toggle: newValue, player: 1, leader: true)
-                            }.labelsHidden()
-                    }
-                    Spacer()
-                    VStack {
-                        Text("Base")
-                        Toggle("Base", isOn: $player1base)
-                            .onChange(of: player1base) {oldState, newValue in
-                                handleToggle(toggle: newValue, player: 1, leader: false)
-                            }.labelsHidden()
-                    }
-                    Spacer()
-                }.toggleStyle(.switch)
-                Spacer()
-            }.scaleEffect(x: -1, y: -1)
-            Spacer()
-            GroupBox(label: Text("Player 2")) {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button("-5") {
-                        handleDamage(player: 2, damage: -5)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Button("-1") {
-                        handleDamage(player: 2, damage: -1)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Text("\(player2damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    Spacer()
-                    Button("+1") {
-                        handleDamage(player: 2, damage: 1)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                    Button("+5") {
-                        handleDamage(player: 2, damage: 5)
-                    }.buttonStyle(.bordered)
-                    Spacer()
-                }
-                Spacer()
-                HStack {
-                    Spacer()
-                    VStack {
-                        Text("Leader")
-                        Toggle("", isOn: $player2leader)
-                            .onChange(of: player2leader) {oldState, newValue in
-                                handleToggle(toggle: newValue, player: 2, leader: true)
-                            }.labelsHidden()
-                    }
-                    Spacer()
-                    VStack {
-                        Text("Base")
-                        Toggle("Base", isOn: $player2base)
-                            .onChange(of: player2base) {oldState, newValue in
-                                handleToggle(toggle: newValue, player: 2, leader: false)
-                            }.labelsHidden()
-                    }
-                    Spacer()
-                }.toggleStyle(.switch)
-                Spacer()
-            }
-            Spacer()
-            HStack {
-                Spacer()
-                Button("Reset") {
-                    showConfirmation = true
-                        }
-                        .confirmationDialog("Are you sure?", isPresented: $showConfirmation) {
-                            Button("Reset", role: .destructive) {
-                                handleReset()
-                            }
-                            Button("Cancel", role: .cancel) {
-                                // Do nothing
-                            }
-                        }
-            Spacer()
-                Button("Log") {
-                     showingLog.toggle()
-                }.popover(isPresented: $showingLog) {
-                    ScrollView {
-                        Spacer()
-                        VStack(spacing: 10) {
-                            ForEach(audit, id: \.self) { item in
-                                Text(item)
-//                                    .padding()
-                            }
-                        }
-                        Spacer()
-                    }
-                }.multilineTextAlignment(.leading)
-                Spacer()
-            }
-            Spacer()
+    audit.append("\(timestamp): Player \(player) \(toggleOf) \(verbage)")
+  }
+  
+  func handleReset(){
+    player1damage = 0
+    player1leader = false
+    player1base = false
+    
+    player2damage = 0
+    player2leader = false
+    player2base = false
+    
+    audit = []
+  }
+
+  var body: some View {
+    VStack {
+      Spacer()
+      GroupBox(label: Text("Player 1")) {
+        Spacer()
+        HStack {
+          Spacer()
+          Button("-5") {
+            handleDamage(player: 1, damage: -5)
+          }.buttonStyle(.bordered)
+          Spacer()
+          Button("-1") {
+            handleDamage(player: 1, damage: -1)
+          }.buttonStyle(.bordered)
+          Spacer()
+          Text("\(player1damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+          Spacer()
+          Button("+1") {
+            handleDamage(player: 1, damage: 1)
+          }.buttonStyle(.bordered)
+          Spacer()
+          Button("+5") {
+            handleDamage(player: 1, damage: 5)
+          }.buttonStyle(.bordered)
+          Spacer()
         }
-        .padding()
+        Spacer()
+        HStack {
+          Spacer()
+          VStack {
+            Text("Leader")
+            Toggle("", isOn: $player1leader)
+              .onChange(of: player1leader) {oldState, newValue in
+                handleToggle(toggle: newValue, player: 1, leader: true)
+              }.labelsHidden()
+          }
+          Spacer()
+          VStack {
+            Text("Base")
+            Toggle("Base", isOn: $player1base)
+              .onChange(of: player1base) {oldState, newValue in
+                handleToggle(toggle: newValue, player: 1, leader: false)
+              }.labelsHidden()
+          }
+          Spacer()
+        }.toggleStyle(.switch)
+        Spacer()
+      }
+      .scaleEffect(x: -1, y: -1)
+      Spacer()
+      GroupBox(label: Text("Player 2")) {
+          Spacer()
+          HStack {
+            Spacer()
+            Button("-5") {
+              handleDamage(player: 2, damage: -5)
+            }.buttonStyle(.bordered)
+            Spacer()
+            Button("-1") {
+              handleDamage(player: 2, damage: -1)
+            }.buttonStyle(.bordered)
+            Spacer()
+            Text("\(player2damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            Spacer()
+            Button("+1") {
+              handleDamage(player: 2, damage: 1)
+            }.buttonStyle(.bordered)
+            Spacer()
+            Button("+5") {
+              handleDamage(player: 2, damage: 5)
+            }.buttonStyle(.bordered)
+            Spacer()
+          }
+          Spacer()
+          HStack {
+            Spacer()
+            VStack {
+              Text("Leader")
+              Toggle("", isOn: $player2leader)
+                .onChange(of: player2leader) {oldState, newValue in
+                  handleToggle(toggle: newValue, player: 2, leader: true)
+                }.labelsHidden()
+            }
+            Spacer()
+            VStack {
+              Text("Base")
+              Toggle("Base", isOn: $player2base)
+                .onChange(of: player2base) {oldState, newValue in
+                  handleToggle(toggle: newValue, player: 2, leader: false)
+                }.labelsHidden()
+            }
+            Spacer()
+          }.toggleStyle(.switch)
+          Spacer()
+      }
+      Spacer()
+      HStack {
+        Spacer()
+        Button("Reset") {
+          showConfirmation = true
+          }
+          .confirmationDialog("Are you sure?", isPresented: $showConfirmation) {
+            Button("Reset", role: .destructive) {
+              handleReset()
+            }
+            Button("Cancel", role: .cancel) {
+              // Do nothing
+            }
+          }
+          .buttonStyle(.bordered)
+        Spacer()
+        Button("Log") {
+          showingLog.toggle()
+        }
+        .popover(isPresented: $showingLog) {
+          ScrollView {
+            Spacer()
+            VStack(spacing: 10) {
+              ForEach(audit, id: \.self) { item in
+                Text(item)
+                //    .padding()
+              }
+            }
+            Spacer()
+          }
+        }
+        .multilineTextAlignment(.leading)
+        .buttonStyle(.bordered)
+        Spacer()
+      }
+      Spacer()
     }
+    .padding()
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
