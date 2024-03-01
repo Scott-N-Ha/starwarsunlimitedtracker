@@ -26,10 +26,12 @@ struct ContentView: View {
   @State var player1damage: Int = 0
   @State var player1leader: Bool = false
   @State var player1base: Bool = false
+  @State var player1initiative: Bool = true
   
   @State var player2damage: Int = 0
   @State var player2leader: Bool = false
   @State var player2base: Bool = false
+  @State var player2initiative: Bool = false
   
   @State var audit: [String] = []
   
@@ -62,15 +64,30 @@ struct ContentView: View {
 
     audit.append("\(timestamp): Player \(player) \(toggleOf) \(verbage)")
   }
+
+  func handleInitiative (player: Int) {
+    if player == 1 {
+      player1initiative = true
+      player2initiative = false
+    } else {
+      player1initiative = false
+      player2initiative = true
+    }
+    
+    let timestamp = getTimestamp()
+    audit.append("\(timestamp): Player \(player) took initiative")
+  }
   
   func handleReset(){
     player1damage = 0
     player1leader = false
     player1base = false
+    player1initiative = true
     
     player2damage = 0
     player2leader = false
     player2base = false
+    player2initiative = false
     
     audit = []
   }
@@ -120,10 +137,21 @@ struct ContentView: View {
               }.labelsHidden()
           }
           Spacer()
+          VStack {
+            Text("Initiative")
+            Button("Take Initiative") {
+              handleInitiative(player: 1)
+            }.buttonStyle(.bordered)
+          }
+          Spacer()
         }.toggleStyle(.switch)
         Spacer()
       }
       .scaleEffect(x: -1, y: -1)
+      .overlay(
+        RoundedRectangle(cornerRadius: 16)
+            .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
+      )
       Spacer()
       GroupBox(label: Text("Player 2")) {
           Spacer()
@@ -167,9 +195,20 @@ struct ContentView: View {
                 }.labelsHidden()
             }
             Spacer()
+            VStack {
+              Text("Initiative")
+              Button("Take Initiative") {
+                handleInitiative(player: 2)
+              }.buttonStyle(.bordered)
+            }
+            Spacer()
           }.toggleStyle(.switch)
           Spacer()
       }
+      .overlay(
+        RoundedRectangle(cornerRadius: 16)
+            .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
+      )
       Spacer()
       HStack {
         Spacer()
