@@ -38,12 +38,18 @@ struct ContentView: View {
   func handleDamage (player: Int, damage: Int) {
     var finalDamage = 0
     if player == 1 {
+      if player1damage == 0 && damage < 0 {
+        return
+      }
       player1damage += damage
       if player1damage < 0 {
         player1damage = 0
       }
       finalDamage = player1damage
     } else {
+      if player2damage == 0 && damage < 0 {
+        return
+      }
       player2damage += damage
       if player2damage < 0 {
         player2damage = 0
