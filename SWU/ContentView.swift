@@ -67,9 +67,15 @@ struct ContentView: View {
 
   func handleInitiative (player: Int) {
     if player == 1 {
+      if player1initiative {
+        return
+      }
       player1initiative = true
       player2initiative = false
     } else {
+      if player2initiative {
+        return
+      }
       player1initiative = false
       player2initiative = true
     }
