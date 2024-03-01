@@ -64,9 +64,9 @@ struct ContentView: View {
   }
 
   func getDamageColor (damage: Int) -> Color {
-    if damage < 5 {
+    if damage <= 5 {
       return .green
-    } else if damage < 10 {
+    } else if damage <= 13 {
       return .yellow
     } else if damage < 20 {
       return .orange
