@@ -99,23 +99,46 @@ struct ContentView: View {
         Spacer()
         HStack {
           Spacer()
-          Button("-5") {
-            handleDamage(player: 1, damage: -5)
-          }.buttonStyle(.bordered)
+          VStack {
+            Spacer()
+            Button("-5") {
+              handleDamage(player: 1, damage: -5)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+            Button("-3") {
+              handleDamage(player: 1, damage: -3)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+            Button("-1") {
+              handleDamage(player: 1, damage: -1)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+          }
           Spacer()
-          Button("-1") {
-            handleDamage(player: 1, damage: -1)
-          }.buttonStyle(.bordered)
+          Text("\(player1damage)")
+            .font(.system(.largeTitle, design: .rounded))
           Spacer()
-          Text("\(player1damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-          Spacer()
-          Button("+1") {
-            handleDamage(player: 1, damage: 1)
-          }.buttonStyle(.bordered)
-          Spacer()
-          Button("+5") {
-            handleDamage(player: 1, damage: 5)
-          }.buttonStyle(.bordered)
+          VStack {
+            Spacer()
+            Button("+5") {
+              handleDamage(player: 1, damage: 5)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+            Button("+3") {
+              handleDamage(player: 1, damage: 3)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+            Button("+1") {
+              handleDamage(player: 1, damage: 1)
+            }
+              .buttonStyle(.bordered)
+            Spacer()
+          }
           Spacer()
         }
         Spacer()
@@ -126,7 +149,8 @@ struct ContentView: View {
             Toggle("", isOn: $player1leader)
               .onChange(of: player1leader) {oldState, newValue in
                 handleToggle(toggle: newValue, player: 1, leader: true)
-              }.labelsHidden()
+              }
+                .labelsHidden()
           }
           Spacer()
           VStack {
@@ -134,14 +158,16 @@ struct ContentView: View {
             Toggle("Base", isOn: $player1base)
               .onChange(of: player1base) {oldState, newValue in
                 handleToggle(toggle: newValue, player: 1, leader: false)
-              }.labelsHidden()
+              }
+                .labelsHidden()
           }
           Spacer()
           VStack {
             Text("Initiative")
             Button("Take Initiative") {
               handleInitiative(player: 1)
-            }.buttonStyle(.bordered)
+            }
+              .buttonStyle(.bordered)
           }
           Spacer()
         }.toggleStyle(.switch)
@@ -157,23 +183,46 @@ struct ContentView: View {
           Spacer()
           HStack {
             Spacer()
-            Button("-5") {
-              handleDamage(player: 2, damage: -5)
-            }.buttonStyle(.bordered)
+            VStack {
+              Spacer()
+              Button("-5") {
+                handleDamage(player: 2, damage: -5)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+              Button("-3") {
+                handleDamage(player: 2, damage: -3)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+              Button("-1") {
+                handleDamage(player: 2, damage: -1)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+            }
             Spacer()
-            Button("-1") {
-              handleDamage(player: 2, damage: -1)
-            }.buttonStyle(.bordered)
+            Text("\(player2damage)")
+              .font(.system(.largeTitle, design: .rounded))
             Spacer()
-            Text("\(player2damage)").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            Spacer()
-            Button("+1") {
-              handleDamage(player: 2, damage: 1)
-            }.buttonStyle(.bordered)
-            Spacer()
-            Button("+5") {
-              handleDamage(player: 2, damage: 5)
-            }.buttonStyle(.bordered)
+            VStack {
+              Spacer()
+              Button("+5") {
+                handleDamage(player: 2, damage: 5)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+              Button("+3") {
+                handleDamage(player: 2, damage: 3)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+              Button("+1") {
+                handleDamage(player: 2, damage: 1)
+              }
+                .buttonStyle(.bordered)
+              Spacer()
+            }
             Spacer()
           }
           Spacer()
