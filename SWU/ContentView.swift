@@ -56,6 +56,18 @@ struct ContentView: View {
     
     audit.append("\(timestamp): Player \(player) \(verbage) \(abs(damage)); final result: \(finalDamage)")
   }
+
+  func getDamageColor (damage: Int) -> Color {
+    if damage < 5 {
+      return .green
+    } else if damage < 10 {
+      return .yellow
+    } else if damage < 20 {
+      return .orange
+    } else {
+      return .red
+    }
+  }
   
   func handleToggle (toggle: Bool, player: Int, leader: Bool) {
     let toggleOf = leader ? "leader" : "base"
@@ -125,6 +137,7 @@ struct ContentView: View {
           }
           Spacer()
           Text("\(player1damage)")
+            .foregroundColor(getDamageColor(damage: player1damage))
             .font(.system(.largeTitle, design: .rounded))
           Spacer()
           VStack {
@@ -209,6 +222,7 @@ struct ContentView: View {
             }
             Spacer()
             Text("\(player2damage)")
+              .foregroundColor(getDamageColor(damage: player2damage))
               .font(.system(.largeTitle, design: .rounded))
             Spacer()
             VStack {
