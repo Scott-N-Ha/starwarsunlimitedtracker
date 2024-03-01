@@ -16,7 +16,7 @@ func getTimestamp () -> String {
   let minute = calendar.component(.minute, from: date)
   let second = calendar.component(.second, from: date)
 
-  return "[\(hour):\(minute):\(second)]"
+  return "[\(hour % 12 == 0 ? 12 : hour % 12):\(minute):\(second)]"
 }
 
 struct ContentView: View {
