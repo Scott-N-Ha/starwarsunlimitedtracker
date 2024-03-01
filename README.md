@@ -6,6 +6,7 @@ Just a quick XCode iOS app that you can use to track the Star Wars Unlimited gam
 - Base health
 - Leader Epic Action
 - Base Epic Action
+- Initiative Tracking
 - Audit log during gameplay
 - Quick reset button
 
