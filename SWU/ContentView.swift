@@ -16,7 +16,11 @@ func getTimestamp () -> String {
   let minute = calendar.component(.minute, from: date)
   let second = calendar.component(.second, from: date)
 
-  return "[\(hour % 12 == 0 ? 12 : hour % 12):\(minute):\(second)]"
+  let hourDisplay = hour % 12 == 0 ? 12 : hour % 12
+  let minuteDisplay = minute < 10 ? "0\(minute)" : "\(minute)"
+  let secondDisplay = second < 10 ? "0\(second)" : "\(second)"
+
+  return "[\(hourDisplay):\(minuteDisplay):\(secondDisplay)]"
 }
 
 struct ContentView: View {
@@ -60,7 +64,7 @@ struct ContentView: View {
     let verbage = damage > 0 ? "took" : "healed"
     let timestamp = getTimestamp()
     
-    audit.append("\(timestamp): Player \(player) \(verbage) \(abs(damage)); final result: \(finalDamage)")
+    audit.append("\(timestamp): Player \(player) \(verbage) \(abs(damage)) damage; final result: \(finalDamage)")
   }
 
   func getDamageColor (damage: Int) -> Color {
@@ -99,7 +103,7 @@ struct ContentView: View {
     }
     
     let timestamp = getTimestamp()
-    audit.append("\(timestamp): Player \(player) took initiative")
+    audit.append("\(timestamp): Player \(player) took the initiative")
   }
   
   func handleReset(){
@@ -202,11 +206,11 @@ struct ContentView: View {
         }.toggleStyle(.switch)
         Spacer()
       }
-      .scaleEffect(x: -1, y: -1)
-      .overlay(
-        RoundedRectangle(cornerRadius: 16)
-          .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
-      )
+        .scaleEffect(x: -1, y: -1)
+        .overlay(
+          RoundedRectangle(cornerRadius: 16)
+            .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
+        )
 
       Spacer()
       Spacer()
@@ -287,10 +291,10 @@ struct ContentView: View {
           }.toggleStyle(.switch)
           Spacer()
       }
-      .overlay(
-        RoundedRectangle(cornerRadius: 16)
-          .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
-      )
+        .overlay(
+          RoundedRectangle(cornerRadius: 16)
+            .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
+        )
 
       Spacer()
       Spacer()
@@ -299,7 +303,7 @@ struct ContentView: View {
         Spacer()
         Button("Reset") {
           showConfirmation = true
-          }
+        }
           .alert(isPresented: $showConfirmation) {
             Alert(
               title: Text("Are you sure you want to reset?"),
@@ -315,20 +319,25 @@ struct ContentView: View {
         Button("Log") {
           showingLog.toggle()
         }
-        .popover(isPresented: $showingLog) {
-          ScrollView {
-            Spacer()
-            VStack(spacing: 10) {
-              ForEach(audit, id: \.self) { item in
-                Text(item)
-                //    .padding()
+          .popover(isPresented: $showingLog) {
+            ScrollView {
+              Spacer()
+              VStack(spacing: 10) {
+                ForEach(audit, id: \.self) { item in
+                  Text(item)
+                  //    .padding()
+                    .multilineTextAlignment(.leading)
+                }
+                  .multilineTextAlignment(.leading)
               }
+                .multilineTextAlignment(.leading)
+              Spacer()
             }
-            Spacer()
+              .padding()
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .multilineTextAlignment(.leading)
           }
-        }
-        .multilineTextAlignment(.leading)
-        .buttonStyle(.bordered)
+          .buttonStyle(.bordered)
         Spacer()
       }
     }
