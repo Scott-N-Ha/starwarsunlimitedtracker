@@ -150,7 +150,7 @@ struct ContentView: View {
       .scaleEffect(x: -1, y: -1)
       .overlay(
         RoundedRectangle(cornerRadius: 16)
-            .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
+          .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
       )
       Spacer()
       GroupBox(label: Text("Player 2")) {
@@ -207,7 +207,7 @@ struct ContentView: View {
       }
       .overlay(
         RoundedRectangle(cornerRadius: 16)
-            .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
+          .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
       )
       Spacer()
       HStack {
