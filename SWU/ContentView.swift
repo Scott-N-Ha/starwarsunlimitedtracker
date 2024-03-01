@@ -113,6 +113,9 @@ struct ContentView: View {
   var body: some View {
     VStack {
       Spacer()
+      Text("Star Wars: Unlimited")
+        .font(.system(.largeTitle, design: .rounded))
+      Spacer()
       GroupBox(label: Text("Player 1")) {
         Spacer()
         HStack {
@@ -183,7 +186,7 @@ struct ContentView: View {
           Spacer()
           VStack {
             Text("Initiative")
-            Button("Take Initiative") {
+            Button("\(player1initiative ? "Has" : "Take") Initiative") {
               handleInitiative(player: 1)
             }
               .buttonStyle(.bordered)
@@ -266,7 +269,7 @@ struct ContentView: View {
             Spacer()
             VStack {
               Text("Initiative")
-              Button("Take Initiative") {
+              Button("\(player2initiative ? "Has" : "Take") Initiative"){
                 handleInitiative(player: 2)
               }.buttonStyle(.bordered)
             }
