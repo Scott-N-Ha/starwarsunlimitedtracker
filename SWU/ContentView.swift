@@ -117,11 +117,12 @@ struct ContentView: View {
   }
 
   var body: some View {
-    VStack {
-      Spacer()
-      Text("Star Wars: Unlimited")
-        .font(.system(.largeTitle, design: .rounded))
-      Spacer()
+    Text("Star Wars: Unlimited Tracker")
+      .font(.system(.largeTitle, design: .rounded))
+    Text("By Scott Ha")
+      .font(.system(.subheadline, design: .rounded))
+    VStack { // Full App View
+
       GroupBox(label: Text("Player 1")) {
         Spacer()
         HStack {
@@ -206,7 +207,10 @@ struct ContentView: View {
         RoundedRectangle(cornerRadius: 16)
           .stroke(.blue, lineWidth: player1initiative ? 8 : 0)
       )
+
       Spacer()
+      Spacer()
+
       GroupBox(label: Text("Player 2")) {
           Spacer()
           HStack {
@@ -287,7 +291,10 @@ struct ContentView: View {
         RoundedRectangle(cornerRadius: 16)
           .stroke(.blue, lineWidth: player2initiative ? 8 : 0)
       )
+
       Spacer()
+      Spacer()
+
       HStack {
         Spacer()
         Button("Reset") {
@@ -324,7 +331,6 @@ struct ContentView: View {
         .buttonStyle(.bordered)
         Spacer()
       }
-      Spacer()
     }
     .padding()
   }
