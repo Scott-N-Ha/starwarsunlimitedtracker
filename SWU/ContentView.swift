@@ -176,13 +176,15 @@ struct ContentView: View {
         Button("Reset") {
           showConfirmation = true
           }
-          .confirmationDialog("Are you sure?", isPresented: $showConfirmation) {
-            Button("Reset", role: .destructive) {
-              handleReset()
-            }
-            Button("Cancel", role: .cancel) {
-              // Do nothing
-            }
+          .alert(isPresented: $showConfirmation) {
+            Alert(
+              title: Text("Are you sure you want to reset?"),
+              // message: Text("This will reset all damage and epic actions."),
+              primaryButton: .default(Text("Reset")) {
+                handleReset()
+              },
+              secondaryButton: .cancel()
+            )
           }
           .buttonStyle(.bordered)
         Spacer()
